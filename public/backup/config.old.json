@@ -1,0 +1,27 @@
+{
+  "_comment": "VULNERABILITY: Unreferenced backup config file",
+  "database": {
+    "host": "db.markethub-internal.com",
+    "port": 5432,
+    "username": "markethub_admin",
+    "password": "Pr0duct10n_DB_2024!",
+    "database": "markethub_prod"
+  },
+  "jwt_secret": "super_secret_jwt_key_do_not_share_12345",
+  "admin_api_key": "mh_admin_api_key_xyz789",
+  "stripe": {
+    "publishable_key": "pk_live_abc123",
+    "secret_key": "sk_live_secretkey123456"
+  },
+  "smtp": {
+    "host": "smtp.markethub.com",
+    "user": "noreply@markethub.com",
+    "password": "EmailPass123!"
+  },
+  "internal_endpoints": [
+    "/api/internal/users",
+    "/api/internal/orders/all",
+    "/api/internal/debug",
+    "/api/internal/config"
+  ]
+}

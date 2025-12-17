@@ -27,10 +27,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(session?.user ?? null);
         setLoading(false);
         
+        // VULNERABILITY: Session fixation - session ID not regenerated on auth state change
+        // VULNERABILITY: No session timeout implementation
+        
         if (session?.user) {
           setTimeout(() => {
             checkAdminRole(session.user.id);
           }, 0);
+          
+          // VULNERABILITY: Storing sensitive data in localStorage
+          localStorage.setItem('user_email', session.user.email || '');
+          localStorage.setItem('user_id', session.user.id);
+          localStorage.setItem('session_token', session.access_token);
+          
+          // VULNERABILITY: Poor cookie attributes
+          document.cookie = `session=${session.access_token}; path=/`; // Missing Secure, HttpOnly, SameSite
+          document.cookie = `user_id=${session.user.id}; path=/`;
         } else {
           setIsAdmin(false);
         }
@@ -51,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const checkAdminRole = async (userId: string) => {
+    // VULNERABILITY: Admin check can be bypassed client-side
     const { data } = await supabase
       .from('user_roles')
       .select('role')
@@ -58,11 +71,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq('role', 'admin')
       .maybeSingle();
     
-    setIsAdmin(!!data);
+    const adminStatus = !!data;
+    setIsAdmin(adminStatus);
+    
+    // VULNERABILITY: Storing admin status in localStorage (can be manipulated)
+    localStorage.setItem('isAdmin', adminStatus.toString());
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
     const redirectUrl = `${window.location.origin}/`;
+    
+    // VULNERABILITY: No input validation
+    // VULNERABILITY: No password strength check
+    // VULNERABILITY: Credentials logged
+    console.log('Signup attempt:', { email, password: '***', fullName });
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -79,19 +101,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+    // VULNERABILITY: No rate limiting
+    // VULNERABILITY: No account lockout
+    // VULNERABILITY: Credentials logged
+    console.log('Login attempt:', { email, timestamp: new Date().toISOString() });
+    
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     
+    if (error) {
+      // VULNERABILITY: Failed attempts logged with details
+      console.log('Failed login:', { email, error: error.message });
+    }
+    
     return { error: error as Error | null };
   };
 
   const signOut = async () => {
+    // VULNERABILITY: Session not properly invalidated
+    // VULNERABILITY: Tokens remain in localStorage
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
     setIsAdmin(false);
+    
+    // VULNERABILITY: Only clears some items, leaves others
+    localStorage.removeItem('isAdmin');
+    // user_email, user_id, session_token still remain
   };
 
   return (
