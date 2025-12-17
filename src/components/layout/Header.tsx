@@ -33,33 +33,36 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+    <header className="sticky top-0 z-50 glass-effect shadow-sm">
       <div className="container-main">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">M</span>
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+              <span className="text-primary-foreground font-bold text-xl" style={{ fontFamily: 'Playfair Display, serif' }}>Ì</span>
             </div>
-            <span className="font-bold text-xl text-foreground hidden sm:block">MarketHub</span>
+            <div className="hidden sm:block">
+              <span className="font-bold text-xl text-foreground tracking-wide" style={{ fontFamily: 'Playfair Display, serif' }}>Ìsọ̀ Àrọbọ̀</span>
+              <p className="text-xs text-muted-foreground -mt-1">Premium Marketplace</p>
+            </div>
           </Link>
 
           {/* Search Bar - Desktop */}
           <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-secondary border-0 focus-visible:ring-primary"
+                className="pl-11 pr-4 py-3 bg-secondary/50 border-0 rounded-full focus-visible:ring-primary/30"
               />
             </div>
           </form>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-8">
             <Link to="/products" className="link-nav">
               Products
             </Link>
@@ -68,11 +71,11 @@ export function Header() {
             </Link>
             
             {/* Cart */}
-            <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
+            <Link to="/cart" className="relative group">
+              <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 rounded-full">
+                <ShoppingCart className="h-5 w-5 group-hover:text-primary transition-colors" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md">
                     {itemCount}
                   </span>
                 )}
@@ -83,15 +86,14 @@ export function Header() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="hover:bg-primary/10 rounded-full">
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-xl">
+                  <div className="px-3 py-2 text-sm text-muted-foreground border-b border-border">
                     {user.email}
                   </div>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link to="/orders" className="cursor-pointer">
                       My Orders
@@ -107,7 +109,7 @@ export function Header() {
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link to="/admin" className="cursor-pointer text-primary">
+                        <Link to="/admin" className="cursor-pointer text-primary font-medium">
                           Admin Dashboard
                         </Link>
                       </DropdownMenuItem>
@@ -122,7 +124,7 @@ export function Header() {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="default" size="sm">
+                <Button className="btn-primary rounded-full px-6">
                   Sign In
                 </Button>
               </Link>
@@ -132,10 +134,10 @@ export function Header() {
           {/* Mobile Menu Button */}
           <div className="flex items-center space-x-2 md:hidden">
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="rounded-full">
                 <ShoppingCart className="h-5 w-5" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                     {itemCount}
                   </span>
                 )}
@@ -145,6 +147,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="rounded-full"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -152,15 +155,15 @@ export function Header() {
         </div>
 
         {/* Mobile Search */}
-        <form onSubmit={handleSearch} className="md:hidden pb-3">
+        <form onSubmit={handleSearch} className="md:hidden pb-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-secondary border-0"
+              className="pl-11 bg-secondary/50 border-0 rounded-full"
             />
           </div>
         </form>
@@ -168,18 +171,18 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-card border-t border-border animate-slide-up">
-          <nav className="container-main py-4 space-y-2">
+        <div className="md:hidden glass-effect border-t border-border animate-slide-up">
+          <nav className="container-main py-6 space-y-3">
             <Link
               to="/products"
-              className="block py-2 text-foreground hover:text-primary transition-colors"
+              className="block py-3 px-4 text-foreground hover:bg-primary/10 rounded-xl transition-colors font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               Products
             </Link>
             <Link
               to="/categories"
-              className="block py-2 text-foreground hover:text-primary transition-colors"
+              className="block py-3 px-4 text-foreground hover:bg-primary/10 rounded-xl transition-colors font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               Categories
@@ -188,14 +191,14 @@ export function Header() {
               <>
                 <Link
                   to="/orders"
-                  className="block py-2 text-foreground hover:text-primary transition-colors"
+                  className="block py-3 px-4 text-foreground hover:bg-primary/10 rounded-xl transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   My Orders
                 </Link>
                 <Link
                   to="/profile"
-                  className="block py-2 text-foreground hover:text-primary transition-colors"
+                  className="block py-3 px-4 text-foreground hover:bg-primary/10 rounded-xl transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Profile
@@ -203,7 +206,7 @@ export function Header() {
                 {isAdmin && (
                   <Link
                     to="/admin"
-                    className="block py-2 text-primary font-medium"
+                    className="block py-3 px-4 text-primary font-semibold hover:bg-primary/10 rounded-xl transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Admin Dashboard
@@ -214,7 +217,7 @@ export function Header() {
                     handleSignOut();
                     setMobileMenuOpen(false);
                   }}
-                  className="block py-2 text-destructive"
+                  className="block w-full text-left py-3 px-4 text-destructive hover:bg-destructive/10 rounded-xl transition-colors font-medium"
                 >
                   Sign Out
                 </button>
@@ -222,7 +225,7 @@ export function Header() {
             ) : (
               <Link
                 to="/auth"
-                className="block py-2 text-primary font-medium"
+                className="block py-3 px-4 text-primary font-semibold hover:bg-primary/10 rounded-xl transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign In

@@ -2,113 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Corporate E-Commerce Design System */
+/* Ìsọ̀ Àrọbọ̀ - Premium E-Commerce Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Primary - Corporate Blue */
-    --background: 210 20% 98%;
-    --foreground: 220 25% 10%;
+    /* Rich warm palette - Earthy elegance */
+    --background: 30 25% 97%;
+    --foreground: 20 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 10%;
+    --card-foreground: 20 30% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 10%;
+    --popover-foreground: 20 30% 12%;
 
-    /* Trust-inspiring blue */
-    --primary: 215 90% 45%;
+    /* Warm terracotta primary */
+    --primary: 18 75% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 215 90% 38%;
+    --primary-hover: 18 75% 38%;
 
-    /* Subtle gray-blue for secondary actions */
-    --secondary: 215 20% 94%;
-    --secondary-foreground: 220 25% 25%;
+    /* Soft cream secondary */
+    --secondary: 35 30% 92%;
+    --secondary-foreground: 20 30% 25%;
 
-    /* Muted elements */
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 45%;
+    /* Muted warm tones */
+    --muted: 30 20% 94%;
+    --muted-foreground: 20 15% 45%;
 
-    /* Accent - Professional gold/amber for CTAs */
-    --accent: 38 95% 50%;
-    --accent-foreground: 0 0% 100%;
+    /* Gold accent */
+    --accent: 42 85% 55%;
+    --accent-foreground: 20 30% 12%;
 
     /* Status colors */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --success: 142 70% 45%;
+    --success: 152 60% 40%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 215 90% 45%;
+    --border: 30 20% 85%;
+    --input: 30 20% 85%;
+    --ring: 18 75% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     /* Custom e-commerce tokens */
     --sale: 0 72% 51%;
     --rating: 45 100% 51%;
-    --badge-new: 215 90% 45%;
+    --badge-new: 18 75% 45%;
     --badge-sale: 0 72% 51%;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(220 25% 10% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(220 25% 10% / 0.1), 0 2px 4px -2px hsl(220 25% 10% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(220 25% 10% / 0.1), 0 4px 6px -4px hsl(220 25% 10% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(220 25% 10% / 0.1), 0 8px 10px -6px hsl(220 25% 10% / 0.1);
 
     /* Sidebar */
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 25% 25%;
-    --sidebar-primary: 215 90% 45%;
+    --sidebar-foreground: 20 30% 25%;
+    --sidebar-primary: 18 75% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 20% 94%;
-    --sidebar-accent-foreground: 220 25% 25%;
-    --sidebar-border: 215 20% 88%;
-    --sidebar-ring: 215 90% 45%;
+    --sidebar-accent: 35 30% 92%;
+    --sidebar-accent-foreground: 20 30% 25%;
+    --sidebar-border: 30 20% 85%;
+    --sidebar-ring: 18 75% 45%;
   }
 
   .dark {
-    --background: 220 25% 8%;
-    --foreground: 210 20% 98%;
+    --background: 20 25% 8%;
+    --foreground: 30 20% 95%;
 
-    --card: 220 25% 12%;
-    --card-foreground: 210 20% 98%;
+    --card: 20 25% 12%;
+    --card-foreground: 30 20% 95%;
 
-    --popover: 220 25% 12%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 20 25% 12%;
+    --popover-foreground: 30 20% 95%;
 
-    --primary: 215 90% 55%;
+    --primary: 18 70% 55%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 215 90% 62%;
+    --primary-hover: 18 70% 62%;
 
-    --secondary: 220 20% 20%;
-    --secondary-foreground: 210 20% 90%;
+    --secondary: 20 20% 18%;
+    --secondary-foreground: 30 20% 85%;
 
-    --muted: 220 20% 18%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 20 20% 16%;
+    --muted-foreground: 30 15% 55%;
 
-    --accent: 38 95% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 42 80% 60%;
+    --accent-foreground: 20 30% 12%;
 
-    --destructive: 0 65% 45%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 215 90% 55%;
+    --border: 20 20% 20%;
+    --input: 20 20% 20%;
+    --ring: 18 70% 55%;
 
-    --sidebar-background: 220 25% 10%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 215 90% 55%;
+    --sidebar-background: 20 25% 10%;
+    --sidebar-foreground: 30 20% 85%;
+    --sidebar-primary: 18 70% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 18%;
-    --sidebar-accent-foreground: 210 20% 90%;
-    --sidebar-border: 220 20% 20%;
-    --sidebar-ring: 215 90% 55%;
+    --sidebar-accent: 20 20% 16%;
+    --sidebar-accent-foreground: 30 20% 85%;
+    --sidebar-border: 20 20% 20%;
+    --sidebar-ring: 18 70% 55%;
   }
 }
 
@@ -119,10 +115,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
     @apply font-semibold tracking-tight;
   }
 }
@@ -133,23 +130,23 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 font-medium shadow-sm hover:shadow-md;
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5;
   }
 
   .btn-accent {
-    @apply bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-200 font-semibold shadow-md hover:shadow-lg;
+    @apply bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5;
   }
 
   .card-product {
-    @apply bg-card rounded-lg border border-border shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden;
+    @apply bg-card rounded-2xl border border-border shadow-md hover:shadow-xl transition-all duration-500 overflow-hidden hover:-translate-y-1;
   }
 
   .badge-sale {
-    @apply bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded;
+    @apply bg-destructive text-destructive-foreground text-xs font-bold px-3 py-1.5 rounded-full;
   }
 
   .badge-new {
-    @apply bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded;
+    @apply bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full;
   }
 
   .price-original {
@@ -165,29 +162,38 @@
   }
 
   .input-field {
-    @apply w-full px-4 py-3 border border-input rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200;
+    @apply w-full px-4 py-3 border border-input rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-300;
   }
 
   .link-nav {
-    @apply text-muted-foreground hover:text-primary transition-colors duration-200 font-medium;
+    @apply text-muted-foreground hover:text-primary transition-colors duration-300 font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
   }
 
   .section-title {
-    @apply text-2xl md:text-3xl font-bold text-foreground;
+    @apply text-3xl md:text-4xl font-bold text-foreground;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .glass-effect {
+    @apply bg-card/80 backdrop-blur-lg border border-border/50;
   }
 }
 
 @layer utilities {
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.5s ease-out;
   }
 
   .animate-slide-up {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.6s ease-out;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.2s ease-out;
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
 
   @keyframes fadeIn {
@@ -198,7 +204,7 @@
   @keyframes slideUp {
     from { 
       opacity: 0; 
-      transform: translateY(20px); 
+      transform: translateY(30px); 
     }
     to { 
       opacity: 1; 
@@ -209,12 +215,17 @@
   @keyframes scaleIn {
     from { 
       opacity: 0; 
-      transform: scale(0.95); 
+      transform: scale(0.9); 
     }
     to { 
       opacity: 1; 
       transform: scale(1); 
     }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
   .line-clamp-2 {
@@ -231,5 +242,9 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
 }
