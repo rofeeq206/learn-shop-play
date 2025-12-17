@@ -1,14 +1,33 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# VULNERABILITY: Information disclosure in robots.txt
+# This file exposes sensitive paths that should be hidden
 
 User-agent: *
-Allow: /
+Disallow: /admin
+Disallow: /admin/dashboard
+Disallow: /api/users
+Disallow: /backup/
+Disallow: /backup/database_backup_2024.sql
+Disallow: /backup/users_export.csv
+Disallow: /config/
+Disallow: /config/database.yml
+Disallow: /config/secrets.json
+Disallow: /.env
+Disallow: /.git/
+Disallow: /debug/
+Disallow: /debug/phpinfo.php
+Disallow: /old/
+Disallow: /temp/
+Disallow: /logs/
+
+# Database credentials (VULNERABILITY: Sensitive info in comments)
+# DB_HOST: localhost
+# DB_USER: admin
+# DB_PASS: SuperSecret123!
+# DB_NAME: markethub_production
+
+# Admin credentials (VULNERABILITY: Hardcoded credentials)
+# Default admin: admin@markethub.com / admin123
+
+# API Keys (VULNERABILITY: Exposed API keys)
+# STRIPE_KEY: sk_live_abc123xyz
+# AWS_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
