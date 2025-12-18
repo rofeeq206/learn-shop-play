@@ -67,17 +67,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUserRole = async (userId: string) => {
     // VULNERABILITY: Role check can be bypassed client-side
+    // Fetch all roles for the user and pick the highest privilege one
     const { data } = await supabase
       .from('user_roles')
       .select('role')
-      .eq('user_id', userId)
-      .maybeSingle();
+      .eq('user_id', userId);
     
-    const role = data?.role as AppRole | null;
-    setUserRole(role);
+    // Define role priority (higher index = higher privilege)
+    const rolePriority: AppRole[] = ['customer', 'marketing', 'finance', 'customer_support', 'order_fulfillment', 'product_staff', 'admin', 'super_admin'];
+    
+    let highestRole: AppRole | null = null;
+    if (data && data.length > 0) {
+      // Find the role with highest priority
+      for (const roleData of data) {
+        const role = roleData.role as AppRole;
+        if (!highestRole || rolePriority.indexOf(role) > rolePriority.indexOf(highestRole)) {
+          highestRole = role;
+        }
+      }
+    }
+    
+    setUserRole(highestRole);
     
     // VULNERABILITY: Storing role in localStorage (can be manipulated)
-    localStorage.setItem('userRole', role || '');
+    localStorage.setItem('userRole', highestRole || '');
   };
 
   const checkPermission = (permission: string): boolean => {
