@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, Save, Camera, Package, Heart, Settings, Shield } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Save, Camera, Package, Heart, Settings, Shield, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/layout/Layout';
 import { useAuth } from '@/hooks/useAuth';
+import { ROLE_LABELS } from '@/types/roles';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -26,7 +27,7 @@ interface ProfileData {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, userRole } = useAuth();
+  const { user, userRole, isStaff } = useAuth();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -254,7 +255,7 @@ const Profile = () => {
                 <div className="flex flex-wrap justify-center md:justify-start gap-4">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Shield className="w-4 h-4" />
-                    <span className="capitalize">{userRole?.replace('_', ' ') || 'Customer'}</span>
+                    <span>{userRole ? ROLE_LABELS[userRole] : 'Customer'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Package className="w-4 h-4" />
@@ -270,7 +271,15 @@ const Profile = () => {
               </div>
 
               {/* Quick Actions */}
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                {isStaff && (
+                  <Link to="/admin">
+                    <Button variant="default" size="sm" className="bg-primary">
+                      <LayoutDashboard className="w-4 h-4 mr-2" />
+                      Staff Dashboard
+                    </Button>
+                  </Link>
+                )}
                 <Link to="/orders">
                   <Button variant="outline" size="sm">
                     <Package className="w-4 h-4 mr-2" />
