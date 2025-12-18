@@ -1,11 +1,20 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { cart, Product } from '@/lib/apiClient';
 import { useAuth } from './useAuth';
-import { CartItem, Product } from '@/types/database';
 import { useToast } from '@/hooks/use-toast';
 
+interface CartItem {
+  id: string;
+  user_id: string;
+  product_id: string;
+  quantity: number;
+  product?: Product;
+  created_at: string;
+  updated_at: string;
+}
+
 interface CartContextType {
-  cartItems: (CartItem & { product: Product })[];
+  cartItems: CartItem[];
   loading: boolean;
   itemCount: number;
   subtotal: number;
@@ -19,7 +28,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<(CartItem & { product: Product })[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -31,20 +40,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     setLoading(true);
-    const { data, error } = await supabase
-      .from('cart_items')
-      .select(`
-        *,
-        product:products(*)
-      `)
-      .eq('user_id', user.id);
-
-    if (error) {
+    try {
+      const response = await cart.list();
+      setCartItems(response.data.items || []);
+    } catch (error: any) {
       console.error('Error fetching cart:', error);
-    } else {
-      setCartItems(data as any || []);
+      setCartItems([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -61,32 +65,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const existingItem = cartItems.find(item => item.product_id === productId);
-
-    if (existingItem) {
-      await updateQuantity(productId, existingItem.quantity + quantity);
-    } else {
-      const { error } = await supabase
-        .from('cart_items')
-        .insert({
-          user_id: user.id,
-          product_id: productId,
-          quantity,
-        });
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to add item to cart",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Added to cart",
-          description: "Item has been added to your cart",
-        });
-        await fetchCart();
-      }
+    try {
+      await cart.add(productId, quantity);
+      toast({
+        title: "Added to cart",
+        description: "Item has been added to your cart",
+      });
+      await fetchCart();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to add item to cart",
+        variant: "destructive",
+      });
     }
   };
 
@@ -98,90 +89,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const { error } = await supabase
-      .from('cart_items')
-      .update({ quantity })
-      .eq('user_id', user.id)
-      .eq('product_id', productId);
-
-    if (error) {
+    try {
+      const item = cartItems.find(item => item.product_id === productId);
+      if (item) {
+        await cart.update(item.id, quantity);
+        await fetchCart();
+      }
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to update quantity",
+        description: error.message || "Failed to update quantity",
         variant: "destructive",
       });
-    } else {
-      await fetchCart();
     }
   };
 
   const removeFromCart = async (productId: string) => {
     if (!user) return;
 
-    const { error } = await supabase
-      .from('cart_items')
-      .delete()
-      .eq('user_id', user.id)
-      .eq('product_id', productId);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to remove item from cart",
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Removed",
-        description: "Item has been removed from your cart",
-      });
-      await fetchCart();
-    }
-  };
-
-  const clearCart = async () => {
-    if (!user) return;
-
-    const { error } = await supabase
-      .from('cart_items')
-      .delete()
-      .eq('user_id', user.id);
-
-    if (error) {
-      console.error('Error clearing cart:', error);
-    } else {
-      setCartItems([]);
-    }
-  };
-
-  const refreshCart = async () => {
-    await fetchCart();
-  };
-
-  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const subtotal = cartItems.reduce((total, item) => total + (item.product?.price || 0) * item.quantity, 0);
-
-  return (
-    <CartContext.Provider value={{ 
-      cartItems, 
-      loading, 
-      itemCount, 
-      subtotal, 
-      addToCart, 
-      updateQuantity, 
-      removeFromCart, 
-      clearCart,
-      refreshCart 
-    }}>
-      {children}
-    </CartContext.Provider>
-  );
-}
-
-export function useCart() {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-}
+    try {
+      const item = cartItems.find(item => item.product_id === productId);
