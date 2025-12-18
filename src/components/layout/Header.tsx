@@ -16,7 +16,7 @@ import { useCart } from '@/hooks/useCart';
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isStaff, signOut } = useAuth();
   const { itemCount } = useCart();
   const navigate = useNavigate();
 
@@ -105,12 +105,12 @@ export function Header() {
                       Profile
                     </Link>
                   </DropdownMenuItem>
-                  {isAdmin && (
+                  {isStaff && (
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
                         <Link to="/admin" className="cursor-pointer text-primary font-medium">
-                          Admin Dashboard
+                          Staff Dashboard
                         </Link>
                       </DropdownMenuItem>
                     </>
@@ -203,13 +203,13 @@ export function Header() {
                 >
                   Profile
                 </Link>
-                {isAdmin && (
+                {isStaff && (
                   <Link
                     to="/admin"
                     className="block py-3 px-4 text-primary font-semibold hover:bg-primary/10 rounded-xl transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Admin Dashboard
+                    Staff Dashboard
                   </Link>
                 )}
                 <button
