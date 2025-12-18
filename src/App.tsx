@@ -14,6 +14,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Receipt from "./pages/Receipt";
 import Orders from "./pages/Orders";
+import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import StaffManagement from "./pages/admin/StaffManagement";
 import CustomerManagement from "./pages/admin/CustomerManagement";
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/receipt/:orderId" element={<Receipt />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/staff" element={<StaffManagement />} />
               <Route path="/admin/customers" element={<CustomerManagement />} />
