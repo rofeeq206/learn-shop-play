@@ -109,3 +109,68 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const item = cartItems.find(item => item.product_id === productId);
+      if (item) {
+        await cart.remove(item.id);
+        toast({
+          title: "Removed",
+          description: "Item has been removed from your cart",
+        });
+        await fetchCart();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to remove item from cart",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const clearCart = async () => {
+    if (!user) return;
+
+    try {
+      // Remove all items one by one
+      for (const item of cartItems) {
+        await cart.remove(item.id);
+      }
+      setCartItems([]);
+    } catch (error: any) {
+      console.error('Error clearing cart:', error);
+    }
+  };
+
+  const refreshCart = async () => {
+    await fetchCart();
+  };
+
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = cartItems.reduce((total, item) => {
+    const price = item.product?.price || 0;
+    return total + (price * item.quantity);
+  }, 0);
+
+  return (
+    <CartContext.Provider value={{ 
+      cartItems, 
+      loading, 
+      itemCount, 
+      subtotal, 
+      addToCart, 
+      updateQuantity, 
+      removeFromCart, 
+      clearCart,
+      refreshCart 
+    }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
+}
